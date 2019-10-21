@@ -36,8 +36,12 @@ function BaseSalaryCal(tot_sal){
 
 function HouseRentCal(tot_sal){
 	house_rent = tot_sal*0.5;
-	house_rent_yearly = (tot_sal*0.5)*12;
+	house_rent_yearly = house_rent*12;
 	house_rent_tax = 0;
+	if (house_rent_yearly > 1800000) {
+		house_rent_tax = (house_rent_yearly-1800000)
+		$("#houseRent .taxable").text("Your taxable amount is "+house_rent_yearly+" - 1800000 = "+house_rent_tax+" BDT")
+	}
 	$("#houseRentm").text(house_rent);
 	$("#houseRenty").text(house_rent_yearly);
 	$("#houseRentTax").text(house_rent_tax);
@@ -46,8 +50,12 @@ function HouseRentCal(tot_sal){
 
 function MedicalAllCal(tot_sal){
 	medical_alow = tot_sal*0.1;
-	medical_alow_yearly = (tot_sal*0.1)*12;
+	medical_alow_yearly = medical_alow*12;
 	medical_alow_tax = 0;
+	if (medical_alow_yearly > 120000) {
+		medical_alow_tax = (medical_alow_yearly-120000)
+		$("#medicalAllow .taxable").text("Your taxable amount is "+medical_alow_yearly+" - 120000 = "+medical_alow_tax+" BDT")
+	}
 	$("#medicalAllowm").text(medical_alow);
 	$("#medicalAllowy").text(medical_alow_yearly);
 	$("#medicalAllowTax").text(medical_alow_tax);
@@ -58,6 +66,10 @@ function ConvenceCal(tot_sal){
 	convence = total_salary-(basic_salary+house_rent+medical_alow);
 	convence_yearly = convence*12;
 	convence_tax = 0;
+	if (convence_yearly > 30000) {
+		convence_tax = (convence_yearly-30000)
+		$("#medicalAllow .taxable").text("Your taxable amount is "+convence_yearly+" - 30000 = "+convence_tax+" BDT")
+	}
 	$("#convencem").text(convence);
 	$("#convencey").text(convence_yearly);
 	$("#convenceTax").text(convence_tax);
