@@ -1,0 +1,26 @@
+.tax-top img{
+	margin: auto;
+	width: 400px;
+	margin-bottom: 50px;
+}
+#tax-form{
+	width: 50%;
+	margin: auto;
+}
+
+#taxTable{
+	width: 80%;
+	margin: auto;
+}
+
+#gtotal{
+	border: 2px solid red;
+}
+
+.title{
+	font-weight: bold;
+}
+.description{
+	font-size: 80%;
+	color: gray;
+}
