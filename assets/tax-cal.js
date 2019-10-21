@@ -13,7 +13,7 @@ var convence_yearly;
 var convence_tax;
 $('body').on('focusout', '#totMonthlySalary', function(event) {
 	event.preventDefault();
-	taxCalculation($(this).val())
+	taxCalculation(+$(this).val())
 });
 function taxCalculation(salary){
 	total_salary = salary;
