@@ -11,6 +11,7 @@ var medical_alow_tax;
 var convence;
 var convence_yearly;
 var convence_tax;
+var total_bonus=0;
 $('body').on('focusout', '#totMonthlySalary', function(event) {
 	event.preventDefault();
 	taxCalculation(+$(this).val())
@@ -76,6 +77,16 @@ function ConvenceCal(tot_sal){
 	$("#convenceTax").text(convence_tax);
 	$(".convence_sal").text(convence);
 }
+
+function bonusCal(){
+	if($("#isBonus").is(":checked")){
+		
+	}
+}
+
+$("#isBonus").click(function(event) {
+	$(this).val()
+});
 
 function gtotal(){
 	total_taxable_ammount = basic_salary_yearly+house_rent_tax+medical_alow_tax+convence_tax;
