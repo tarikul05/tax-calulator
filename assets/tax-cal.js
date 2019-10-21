@@ -1,3 +1,4 @@
+var total_taxable_ammount
 var total_salary
 var basic_salary;
 var basic_salary_yearly;
@@ -77,9 +78,10 @@ function ConvenceCal(tot_sal){
 }
 
 function gtotal(){
+	total_taxable_ammount = basic_salary_yearly+house_rent_tax+medical_alow_tax+convence_tax;
 	$("#gtotalm").text(basic_salary+house_rent+medical_alow+convence);
 	$("#gtotaly").text(basic_salary_yearly+house_rent_yearly+medical_alow_yearly+convence_yearly);
-	$("#gtotalTax").text(basic_salary_yearly+house_rent_tax+medical_alow_tax+convence_tax);
+	$("#gtotalTax").text(total_taxable_ammount);
 }
 
 function check(){
