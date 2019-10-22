@@ -83,7 +83,7 @@ function ConvenceCal(tot_sal){
 
 
 $("#isBonus").click(function(event) {
-	checkIsBonus();
+	// checkIsBonus();
 	$("#totMonthlySalary").trigger('focusout')
 });
 
@@ -143,7 +143,6 @@ function taxRangeCalculations(taxAmt, isfemale = false){
 	var isFlag = true;
 
 	if (taxAmt > first_slot) {
-
 		remain_amount = taxAmt - first_slot
 		$("#first-limit-amt").text(`(${taxAmt} - ${first_slot}) = ${remain_amount}`);
 		$("#first-limit-tax").text(`(${first_slot} * 0%) = ${first_slot_amt}`);
@@ -166,6 +165,8 @@ function taxRangeCalculations(taxAmt, isfemale = false){
 		$("#second-limit-amt").text(taxbale2nd);
 		$("#second-limit-tax").text(`(${taxbale2nd} * 10%) = ${second_slot_amt}`);
 		isFlag = false
+	}else{
+		$("#second-limit-amt, #second-limit-tax").text(0);
 	}
 
 	if (remain_amount > third_slot) {
@@ -180,6 +181,8 @@ function taxRangeCalculations(taxAmt, isfemale = false){
 		$("#third-limit-amt").text(taxbale3rd);
 		$("#third-limit-tax").text(`(${taxbale3rd} * 15%) = ${third_slot_amt}`);
 		isFlag = false
+	}else{
+		$("#third-limit-amt, #third-limit-tax").text(0);
 	}
 
 }
