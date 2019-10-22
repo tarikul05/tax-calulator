@@ -20,12 +20,15 @@ function taxCalculation(salary){
 	total_salary = salary;
 	basic_salary = salary*0.6;
 
+	checkIsBonus(); 
+
 	BaseSalaryCal(salary)
 	HouseRentCal(basic_salary)
 	MedicalAllCal(basic_salary)
 	ConvenceCal(basic_salary)
 	gtotal();
-	check();
+
+	// check();
 }
 
 function BaseSalaryCal(tot_sal){
@@ -78,26 +81,38 @@ function ConvenceCal(tot_sal){
 	$(".convence_sal").text(convence);
 }
 
-function bonusCal(){
-	if($("#isBonus").is(":checked")){
-		
+
+$("#isBonus").click(function(event) {
+	checkIsBonus();
+	$("#totMonthlySalary").trigger('focusout')
+});
+
+function checkIsBonus(){
+	if ($("#isBonus").is(":checked")) {
+		total_bonus = total_salary
+		$("#bonusy").text(total_bonus);
+		$("#bonusTax").text(total_bonus);
+	}else{
+		total_bonus = 0
+		$("#bonusy").text(total_bonus);
+		$("#bonusTax").text(total_bonus);
 	}
 }
 
-$("#isBonus").click(function(event) {
-	$(this).val()
-});
-
 function gtotal(){
-	total_taxable_ammount = basic_salary_yearly+house_rent_tax+medical_alow_tax+convence_tax;
+	total_taxable_ammount = basic_salary_yearly+house_rent_tax+medical_alow_tax+convence_tax+total_bonus;
 	$("#gtotalm").text(basic_salary+house_rent+medical_alow+convence);
-	$("#gtotaly").text(basic_salary_yearly+house_rent_yearly+medical_alow_yearly+convence_yearly);
-	$("#gtotalTax").text(total_taxable_ammount);
+	$("#gtotaly").text(basic_salary_yearly+house_rent_yearly+medical_alow_yearly+convence_yearly+total_bonus);
+	$("#gtotalTax, .taxableMnt").text(total_taxable_ammount);
+
+	taxRangeCalculations(total_taxable_ammount)
+
+	// For descriptions instractions
+	$(".gross_sal").text(total_salary);
+	$(".basic_sal").text(basic_salary);
 }
 
 function check(){
-	$(".gross_sal").text(total_salary);
-	$(".basic_sal").text(basic_salary);
 	console.log('total salay:',total_salary)
 	console.log('basic_salary:',basic_salary)
 	console.log('basic_salary_yearly:',basic_salary_yearly)
@@ -105,4 +120,66 @@ function check(){
 	console.log('house_rent_yearly:',house_rent_yearly)
 	console.log('convence:',convence)
 	console.log('convence_yearly:',convence_yearly)
+}
+
+
+function taxRangeCalculations(taxAmt, isfemale = false){
+	if (isfemale) {
+		var first_slot = 300000;
+		$("#first-limit-r2").text(first_slot)
+	}else{
+		var first_slot = 250000;
+	}
+	
+	var first_slot_amt = 0;
+	var second_slot = 400000;
+	var second_slot_amt = 0;
+	var third_slot = 500000;
+	var third_slot_amt = 0;
+	var forth_slot = 600000;
+	var fifth_slot = 3000000;
+
+	var remain_amount = 0
+	var isFlag = true;
+
+	if (taxAmt > first_slot) {
+
+		remain_amount = taxAmt - first_slot
+		$("#first-limit-amt").text(`(${taxAmt} - ${first_slot}) = ${remain_amount}`);
+		$("#first-limit-tax").text(`(${first_slot} * 0%) = ${first_slot_amt}`);
+
+	}else{
+		$("#first-limit-amt").text(taxAmt);
+		$("#first-limit-tax").text(`(${taxAmt} * 0%) = ${first_slot_amt}`);
+		isFlag = false;
+	}
+
+	if (remain_amount > second_slot) {
+		taxbale2nd = second_slot
+		second_slot_amt = taxbale2nd * 0.1;
+		$("#second-limit-amt").text(`(${remain_amount} - ${taxbale2nd}) = ${remain_amount - taxbale2nd}`);
+		$("#second-limit-tax").text(`(${taxbale2nd} * 10%) = ${second_slot_amt}`);
+		remain_amount = remain_amount - second_slot;
+	}else if(isFlag){
+		taxbale2nd = remain_amount;
+		second_slot_amt = taxbale2nd * 0.1;
+		$("#second-limit-amt").text(taxbale2nd);
+		$("#second-limit-tax").text(`(${taxbale2nd} * 10%) = ${second_slot_amt}`);
+		isFlag = false
+	}
+
+	if (remain_amount > third_slot) {
+		taxbale3rd = third_slot
+		third_slot_amt = taxbale3rd * 0.15;
+		$("#third-limit-amt").text(`(${remain_amount} - ${taxbale3rd}) = ${remain_amount - taxbale3rd}`);
+		$("#third-limit-tax").text(`(${taxbale3rd} * 15%) = ${third_slot_amt}`);
+		remain_amount = remain_amount - third_slot;
+	}else if(isFlag){
+		taxbale3rd = remain_amount;
+		third_slot_amt = taxbale3rd * 0.15;
+		$("#third-limit-amt").text(taxbale3rd);
+		$("#third-limit-tax").text(`(${taxbale3rd} * 15%) = ${third_slot_amt}`);
+		isFlag = false
+	}
+
 }
