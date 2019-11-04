@@ -18,6 +18,13 @@
 	font-size: 150%;
 }
 
+#ftotal{
+	border: 3px solid green;
+	background-color: black;
+	font-size: 150%;
+	color: white
+}
+
 .title{
 	font-weight: bold;
 }

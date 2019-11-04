@@ -12,6 +12,10 @@ var convence;
 var convence_yearly;
 var convence_tax;
 var total_bonus=0;
+
+
+var totalTax =0;
+
 $('body').on('focusout', '#totMonthlySalary', function(event) {
 	event.preventDefault();
 	taxCalculation(+$(this).val())
@@ -106,6 +110,7 @@ function gtotal(){
 	$("#gtotalTax, .taxableMnt").text(total_taxable_ammount);
 
 	taxRangeCalculations(total_taxable_ammount)
+	console.log('tt=',totalTax)
 
 	// For descriptions instractions
 	$(".gross_sal").text(total_salary);
@@ -131,13 +136,17 @@ function taxRangeCalculations(taxAmt, isfemale = false){
 		var first_slot = 250000;
 	}
 	
-	var first_slot_amt = 0;
 	var second_slot = 400000;
-	var second_slot_amt = 0;
 	var third_slot = 500000;
-	var third_slot_amt = 0;
 	var forth_slot = 600000;
 	var fifth_slot = 3000000;
+	var last_slot = 3000000;
+	var first_slot_amt = 0;
+	var second_slot_amt = 0;
+	var third_slot_amt = 0;
+	var forth_slot_amt = 0;
+	var fifth_slot_amt = 0;
+	var last_slot_amt = 0;
 
 	var remain_amount = 0
 	var isFlag = true;
@@ -184,5 +193,52 @@ function taxRangeCalculations(taxAmt, isfemale = false){
 	}else{
 		$("#third-limit-amt, #third-limit-tax").text(0);
 	}
+
+
+	if (remain_amount > forth_slot) {
+		taxbale4th = forth_slot
+		forth_slot_amt = taxbale4th * 0.20;
+		$("#forth-limit-amt").text(`(${remain_amount} - ${taxbale4th}) = ${remain_amount - taxbale4th}`);
+		$("#forth-limit-tax").text(`(${taxbale4th} * 20%) = ${forth_slot_amt}`);
+		remain_amount = remain_amount - forth_slot;
+	}else if(isFlag){
+		taxbale4th = remain_amount;
+		forth_slot_amt = taxbale4th * 0.20;
+		$("#forth-limit-amt").text(taxbale4th);
+		$("#forth-limit-tax").text(`(${taxbale4th} * 20%) = ${forth_slot_amt}`);
+		isFlag = false
+	}else{
+		$("#forth-limit-amt, #forth-limit-tax").text(0);
+	}
+
+	if (remain_amount > fifth_slot) {
+		taxbale5th = fifth_slot
+		fifth_slot_amt = taxbale5th * 0.25;
+		$("#fifth-limit-amt").text(`(${remain_amount} - ${taxbale5th}) = ${remain_amount - taxbale5th}`);
+		$("#fifth-limit-tax").text(`(${taxbale5th} * 25%) = ${fifth_slot_amt}`);
+		remain_amount = remain_amount - fifth_slot;
+	}else if(isFlag){
+		taxbale5th = remain_amount;
+		fifth_slot_amt = taxbale5th * 0.25;
+		$("#fifth-limit-amt").text(taxbale5th);
+		$("#fifth-limit-tax").text(`(${taxbale5th} * 25%) = ${fifth_slot_amt}`);
+		isFlag = false
+	}else{
+		$("#fifth-limit-amt, #fifth-limit-tax").text(0);
+	}
+
+	if(isFlag){
+		taxbaleLast = remain_amount;
+		last_slot_amt = taxbaleLast * 0.30;
+		$("#last-limit-amt").text(taxbaleLast);
+		$("#last-limit-tax").text(`(${taxbaleLast} * 25%) = ${last_slot_amt}`);
+		isFlag = false
+	}else{
+		$("#last-limit-amt, #last-limit-tax").text(0);
+	}
+
+	totalTax = second_slot_amt + third_slot_amt+ forth_slot_amt + fifth_slot_amt+ last_slot_amt
+	$("#total-tax").text( totalTax + ' BDT')
+	console.log('amt: ',second_slot_amt,third_slot_amt,forth_slot_amt,fifth_slot_amt,last_slot_amt)
 
 }
