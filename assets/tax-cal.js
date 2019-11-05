@@ -86,8 +86,7 @@ function ConvenceCal(tot_sal){
 }
 
 
-$("#isBonus").click(function(event) {
-	// checkIsBonus();
+$("#isBonus, #isFemale").click(function(event) {
 	$("#totMonthlySalary").trigger('focusout')
 });
 
@@ -129,6 +128,7 @@ function check(){
 
 
 function taxRangeCalculations(taxAmt, isfemale = false){
+	var isfemale = $("#isFemale").is(":checked")
 	if (isfemale) {
 		var first_slot = 300000;
 		$("#first-limit-r2").text(first_slot)
