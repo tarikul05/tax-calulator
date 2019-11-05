@@ -13,12 +13,19 @@ var convence_yearly;
 var convence_tax;
 var total_bonus=0;
 
+var invesmentRate = 30;
+var taxRebaseOnInvasmentRate = 15;
+
 
 var totalTax =0;
 
 $('body').on('focusout', '#totMonthlySalary', function(event) {
 	event.preventDefault();
 	taxCalculation(+$(this).val())
+});
+$("form").submit(function (e) {
+    e.preventDefault();
+    $("#totMonthlySalary").trigger('focusout')
 });
 function taxCalculation(salary){
 	total_salary = salary;
@@ -109,7 +116,7 @@ function gtotal(){
 	$("#gtotalTax, .taxableMnt").text(total_taxable_ammount);
 
 	taxRangeCalculations(total_taxable_ammount)
-	console.log('tt=',totalTax)
+	// console.log('tt=',totalTax)
 
 	// For descriptions instractions
 	$(".gross_sal").text(total_salary);
@@ -134,6 +141,7 @@ function taxRangeCalculations(taxAmt, isfemale = false){
 		$("#first-limit-r2").text(first_slot)
 	}else{
 		var first_slot = 250000;
+		$("#first-limit-r2").text(first_slot)
 	}
 	
 	var second_slot = 400000;
@@ -239,6 +247,31 @@ function taxRangeCalculations(taxAmt, isfemale = false){
 
 	totalTax = second_slot_amt + third_slot_amt+ forth_slot_amt + fifth_slot_amt+ last_slot_amt
 	$("#total-tax").text( totalTax + ' BDT')
-	console.log('amt: ',second_slot_amt,third_slot_amt,forth_slot_amt,fifth_slot_amt,last_slot_amt)
+	// console.log('amt: ',second_slot_amt,third_slot_amt,forth_slot_amt,fifth_slot_amt,last_slot_amt)
 
+
+
+	var totalInvastAbleAmt = total_taxable_ammount * (invesmentRate/100)
+	var totalRebateOnInvesment = totalInvastAbleAmt * (taxRebaseOnInvasmentRate/100)
+	
+	$(".txInvRate").text(invesmentRate)
+	$("#invAmtCal").text(`(${total_taxable_ammount} * ${invesmentRate}%) = ${totalInvastAbleAmt}`)
+
+	$(".investAmnt").text(`${totalInvastAbleAmt}`)
+	$("#rebateCal").text(`(${totalInvastAbleAmt} * ${taxRebaseOnInvasmentRate}%) = ${totalRebateOnInvesment}`)
+	
+
+	var taxAftrInvCalTemp = totalTax - totalRebateOnInvesment;
+	if(taxAftrInvCalTemp < 5000){
+		taxAftrInvCal = 5000;
+	}else{
+		taxAftrInvCal = taxAftrInvCalTemp;
+		$("#rebateTax").text(`( - ) ${totalRebateOnInvesment}`)
+	}
+	$("#taxAftrInvCal").text(`(${totalTax} - ${totalRebateOnInvesment}) = ${taxAftrInvCalTemp}`)
+	$("#taxAftrInvAmtYearly").text(`${taxAftrInvCal}`)
+
+	var afterInvMontlyPayableTax = (taxAftrInvCal/12).toFixed(2)
+	$("#taxAftrInvAmtMonthlyCal").text(`(${taxAftrInvCal} / 12) = ${afterInvMontlyPayableTax}`)
+	$("#taxAftrInvAmtMonthly").text(` ${afterInvMontlyPayableTax}`)
 }

@@ -117,9 +117,9 @@
 			<thead>
 				<tr>
 					<th>Range</th>
-					<th>Tax Percentage</th>
-					<th>Next Slot Amount</th>
-					<th>Tax</th>
+					<th width="10%">Tax Percentage</th>
+					<th width="18%">Next Slot Amount</th>
+					<th width="18%">Tax</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -162,11 +162,55 @@
 				<tr id="ftotal">
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
-					<td >Total</td>
+					<td >Total Tax</td>
 					<td id="total-tax">0</td>
+				</tr>
+				
+			</tbody>
+		</table>
+		
+	</div>
+	<div class="invest-rebate-section">
+		<h1>Tax Rebate Calculations</h1>
+		<table class="table table-hover ">
+			<thead>
+				<tr>
+					<th>Description</th>
+					<th width="10%">Percentage</th>
+					<th width="18%">Calculations</th>
+					<th width="18%">Amount</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Invesment Scame (actual investment or <span class="txInvRate">30</span>% of total(taxable)income  or Tk.1,50,00,000/-whichever is less)</td>
+					<td><span class="txInvRate">30</span>%</td>
+					<td id="invAmtCal" colspan="2"></td>
+					
+				</tr>
+				<tr>
+					<td>if you invest <span class="investAmnt"> </span> BDT then you will be get Rebate 15%</td>
+					<td>&nbsp;</td>
+					<td id="rebateCal">&nbsp;</td>
+					<td class="text-right" id="rebateTax">&nbsp;</td>
+				</tr>
+				<tr>
+					<td>After invesment your Total yearly tax (TotalTax - TotalTaxRebate) or Minimum 5,000 BDT</td>
+					<td>&nbsp;</td>
+					<td id="taxAftrInvCal">&nbsp;</td>
+					<td class="text-right" id="taxAftrInvAmtYearly">&nbsp;</td>
+				</tr>
+				<tr>
+					<td>After invesment Monthly you have to pay </td>
+					<td>&nbsp;</td>
+					<td id="taxAftrInvAmtMonthlyCal">&nbsp;</td>
+					<td class="text-right" id="taxAftrInvAmtMonthly">&nbsp;</td>
 				</tr>
 			</tbody>
 		</table>
+	</div>
+	<div class="bottom">
+			
 	</div>
 
 		<!-- jQuery -->

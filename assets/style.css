@@ -8,7 +8,13 @@
 	margin: auto;
 }
 
-#taxTable, #taxcals, .gender{
+#taxAftrInvAmtYearly, #taxAftrInvAmtMonthly{
+	font-size: 200%;
+	color: white;
+	background-color: black;
+}
+
+#taxTable, #taxcals, .invest-rebate-section, .gender{
 	width: 80%;
 	margin: auto;
 }
@@ -34,4 +40,7 @@
 }
 .taxableMnt{
 	color: green;
+}
+.bottom{
+	margin-bottom: 300px;
 }
