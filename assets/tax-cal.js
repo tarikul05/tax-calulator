@@ -84,7 +84,7 @@ function ConvenceCal(tot_sal){
 	convence_tax = 0;
 	if (convence_yearly > 30000) {
 		convence_tax = (convence_yearly-30000)
-		$("#medicalAllow .taxable").text("Your taxable amount is "+convence_yearly+" - 30000 = "+convence_tax+" BDT")
+		$("#convence .taxable").text("Your taxable amount is "+convence_yearly+" - 30000 = "+convence_tax+" BDT")
 	}
 	$("#convencem").text(convence);
 	$("#convencey").text(convence_yearly);
