@@ -21,7 +21,11 @@ var totalTax =0;
 
 $('body').on('focusout', '#totMonthlySalary', function(event) {
 	event.preventDefault();
-	taxCalculation(+$(this).val())
+	if (+$(this).val() < 25000 ) {
+		$('#modal-id').modal()
+	}else{
+		taxCalculation(+$(this).val())
+	}
 });
 $("form").submit(function (e) {
     e.preventDefault();
