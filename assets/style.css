@@ -8,8 +8,12 @@
 	margin: auto;
 }
 #inv td {
-	border-top: 1px solid red;
-	border-bottom: 1px solid red;
+	border-top: 2px solid red;
+	border-bottom: 2px solid red;
+}
+#inv {
+	border-left: 2px solid red;
+	border-right: 2px solid red;
 }
 #totMonthlySalary{
 	width: 300px;

@@ -15,6 +15,7 @@ var total_bonus=0;
 
 var invesmentRate = 30;
 var taxRebaseOnInvasmentRate = 15;
+var minimumTaxAmount = 5000;
 
 
 var totalTax =0;
@@ -255,11 +256,14 @@ function taxRangeCalculations(taxAmt, isfemale = false){
 
 
 
-	var totalInvastAbleAmt = total_taxable_ammount * (invesmentRate/100)
-	var totalRebateOnInvesment = totalInvastAbleAmt * (taxRebaseOnInvasmentRate/100)
+	var totalInvastAbleAmt = getInvestmentAmount()
+	var totalRebateOnInvesment = Math.round(totalInvastAbleAmt * (taxRebaseOnInvasmentRate/100))
+
+	// console.log("aftere minimum tax", getInvestmentAmount())
 	
 	$(".txInvRate").text(invesmentRate)
-	$("#invAmtCal").text(`(${total_taxable_ammount} * ${invesmentRate}%) = ${totalInvastAbleAmt}`)
+	// $("#invAmtCal").text(`(${total_taxable_ammount} * ${invesmentRate}%) = ${totalInvastAbleAmt}`)
+	$("#invAmtCal").text(` ${totalInvastAbleAmt}`)
 
 	$(".investAmnt").text(`${totalInvastAbleAmt}`)
 	$("#rebateCal").text(`(${totalInvastAbleAmt} * ${taxRebaseOnInvasmentRate}%) = ${totalRebateOnInvesment}`)
@@ -279,3 +283,19 @@ function taxRangeCalculations(taxAmt, isfemale = false){
 	$("#taxAftrInvAmtMonthlyCal").text(`(${taxAftrInvCal} / 12) = ${afterInvMontlyPayableTax}`)
 	$("#taxAftrInvAmtMonthly").text(` ${afterInvMontlyPayableTax}`)
 }
+
+function getInvestmentAmount() {
+
+	var tax90 = total_taxable_ammount*(invesmentRate/100)*(taxRebaseOnInvasmentRate/100)
+	console.log(tax90);
+	if ((totalTax - minimumTaxAmount) > tax90) {
+		console.log("by invesment rate", total_taxable_ammount*invesmentRate)
+		return Math.ceil(total_taxable_ammount*(invesmentRate/100))
+	}else{
+		console.log("by tax rate", (totalTax - minimumTaxAmount) * 100/taxRebaseOnInvasmentRate)
+
+		return Math.ceil(((totalTax - minimumTaxAmount) * 100/taxRebaseOnInvasmentRate))
+	}
+
+}
+
