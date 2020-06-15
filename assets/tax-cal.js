@@ -13,7 +13,7 @@ var convence_yearly;
 var convence_tax;
 var total_bonus=0;
 
-var invesmentRate = 30;
+var invesmentRate = 25;
 var taxRebaseOnInvasmentRate = 15;
 var minimumTaxAmount = 5000;
 
@@ -140,20 +140,27 @@ function check(){
 
 
 function taxRangeCalculations(taxAmt, isfemale = false){
+	
+
+	var taxSlot = {
+		first_slot: {'limit' : 300000, 'percent' : 0, display: 0},
+		second_slot: {'limit' : 100000, 'percent' : 0.05, display: 5},
+		third_slot: {'limit' : 300000, 'percent' : 0.10, display: 10},
+		forth_slot: {'limit' : 400000, 'percent' : 0.15, display: 15},
+		fifth_slot: {'limit' : 500000, 'percent' : 0.20, display: 20},
+		last_slot: {'limit' : 0, 'percent' : 0.25, display: 25},
+	}
+
 	var isfemale = $("#isFemale").is(":checked")
 	if (isfemale) {
-		var first_slot = 300000;
-		$("#first-limit-r2").text(first_slot)
+		taxSlot['first_slot']['limit'] = 350000;
+		$("#first-limit-r2").text(taxSlot.first_slot.limit)
 	}else{
-		var first_slot = 250000;
-		$("#first-limit-r2").text(first_slot)
+		taxSlot['first_slot']['limit'] = 300000;
+		$("#first-limit-r2").text(taxSlot.first_slot.limit)
 	}
-	
-	var second_slot = 400000;
-	var third_slot = 500000;
-	var forth_slot = 600000;
-	var fifth_slot = 3000000;
-	var last_slot = 3000000;
+		
+
 	var first_slot_amt = 0;
 	var second_slot_amt = 0;
 	var third_slot_amt = 0;
@@ -164,77 +171,77 @@ function taxRangeCalculations(taxAmt, isfemale = false){
 	var remain_amount = 0
 	var isFlag = true;
 
-	if (taxAmt > first_slot) {
-		remain_amount = taxAmt - first_slot
-		$("#first-limit-amt").text(`(${taxAmt} - ${first_slot}) = ${remain_amount}`);
-		$("#first-limit-tax").text(`(${first_slot} * 0%) = ${first_slot_amt}`);
+	if (taxAmt > taxSlot['first_slot']['limit']) {
+		remain_amount = taxAmt - taxSlot['first_slot']['limit']
+		$("#first-limit-amt").text(`(${taxAmt} - ${taxSlot['first_slot']['limit']}) = ${remain_amount}`);
+		$("#first-limit-tax").text(`(${taxSlot['first_slot']['limit']} * ${taxSlot['first_slot']['display']}%) = ${first_slot_amt}`);
 
 	}else{
 		$("#first-limit-amt").text(taxAmt);
-		$("#first-limit-tax").text(`(${taxAmt} * 0%) = ${first_slot_amt}`);
+		$("#first-limit-tax").text(`(${taxAmt} * ${taxSlot['first_slot']['display']}%) = ${first_slot_amt}`);
 		isFlag = false;
 	}
 
-	if (remain_amount > second_slot) {
-		taxbale2nd = second_slot
-		second_slot_amt = taxbale2nd * 0.1;
+	if (remain_amount > taxSlot['second_slot']['limit']) {
+		taxbale2nd = taxSlot['second_slot']['limit']
+		second_slot_amt = taxbale2nd * taxSlot['second_slot']['percent'];
 		$("#second-limit-amt").text(`(${remain_amount} - ${taxbale2nd}) = ${remain_amount - taxbale2nd}`);
-		$("#second-limit-tax").text(`(${taxbale2nd} * 10%) = ${second_slot_amt}`);
-		remain_amount = remain_amount - second_slot;
+		$("#second-limit-tax").text(`(${taxbale2nd} * ${taxSlot['second_slot']['display']}%) = ${second_slot_amt}`);
+		remain_amount = remain_amount - taxSlot['second_slot']['limit'];
 	}else if(isFlag){
 		taxbale2nd = remain_amount;
-		second_slot_amt = taxbale2nd * 0.1;
+		second_slot_amt = taxbale2nd * taxSlot['second_slot']['percent'];
 		$("#second-limit-amt").text(taxbale2nd);
-		$("#second-limit-tax").text(`(${taxbale2nd} * 10%) = ${second_slot_amt}`);
+		$("#second-limit-tax").text(`(${taxbale2nd} * ${taxSlot['second_slot']['display']}%) = ${second_slot_amt}`);
 		isFlag = false
 	}else{
 		$("#second-limit-amt, #second-limit-tax").text(0);
 	}
 
-	if (remain_amount > third_slot) {
-		taxbale3rd = third_slot
-		third_slot_amt = taxbale3rd * 0.15;
+	if (remain_amount > taxSlot['third_slot']['limit']) {
+		taxbale3rd = taxSlot['third_slot']['limit']
+		third_slot_amt = taxbale3rd * taxSlot['third_slot']['percent'];
 		$("#third-limit-amt").text(`(${remain_amount} - ${taxbale3rd}) = ${remain_amount - taxbale3rd}`);
-		$("#third-limit-tax").text(`(${taxbale3rd} * 15%) = ${third_slot_amt}`);
-		remain_amount = remain_amount - third_slot;
+		$("#third-limit-tax").text(`(${taxbale3rd} * ${taxSlot['third_slot']['display']}%) = ${third_slot_amt}`);
+		remain_amount = remain_amount - taxSlot['third_slot']['limit'];
 	}else if(isFlag){
 		taxbale3rd = remain_amount;
-		third_slot_amt = taxbale3rd * 0.15;
+		third_slot_amt = taxbale3rd * taxSlot['third_slot']['percent'];
 		$("#third-limit-amt").text(taxbale3rd);
-		$("#third-limit-tax").text(`(${taxbale3rd} * 15%) = ${third_slot_amt}`);
+		$("#third-limit-tax").text(`(${taxbale3rd} * ${taxSlot['third_slot']['display']}%) = ${third_slot_amt}`);
 		isFlag = false
 	}else{
 		$("#third-limit-amt, #third-limit-tax").text(0);
 	}
 
 
-	if (remain_amount > forth_slot) {
-		taxbale4th = forth_slot
-		forth_slot_amt = taxbale4th * 0.20;
+	if (remain_amount > taxSlot['forth_slot']['limit']) {
+		taxbale4th = taxSlot['forth_slot']['limit']
+		forth_slot_amt = taxbale4th * taxSlot['forth_slot']['percent'];
 		$("#forth-limit-amt").text(`(${remain_amount} - ${taxbale4th}) = ${remain_amount - taxbale4th}`);
-		$("#forth-limit-tax").text(`(${taxbale4th} * 20%) = ${forth_slot_amt}`);
-		remain_amount = remain_amount - forth_slot;
+		$("#forth-limit-tax").text(`(${taxbale4th} * ${taxSlot['forth_slot']['display']}%) = ${forth_slot_amt}`);
+		remain_amount = remain_amount - taxSlot['forth_slot']['limit'];
 	}else if(isFlag){
 		taxbale4th = remain_amount;
-		forth_slot_amt = taxbale4th * 0.20;
+		forth_slot_amt = taxbale4th * taxSlot['forth_slot']['percent'];
 		$("#forth-limit-amt").text(taxbale4th);
-		$("#forth-limit-tax").text(`(${taxbale4th} * 20%) = ${forth_slot_amt}`);
+		$("#forth-limit-tax").text(`(${taxbale4th} * ${taxSlot['forth_slot']['display']}%) = ${forth_slot_amt}`);
 		isFlag = false
 	}else{
 		$("#forth-limit-amt, #forth-limit-tax").text(0);
 	}
 
-	if (remain_amount > fifth_slot) {
-		taxbale5th = fifth_slot
-		fifth_slot_amt = taxbale5th * 0.25;
+	if (remain_amount > taxSlot['fifth_slot']['limit']) {
+		taxbale5th = taxSlot['fifth_slot']['limit']
+		fifth_slot_amt = taxbale5th * taxSlot['fifth_slot']['percent'];
 		$("#fifth-limit-amt").text(`(${remain_amount} - ${taxbale5th}) = ${remain_amount - taxbale5th}`);
-		$("#fifth-limit-tax").text(`(${taxbale5th} * 25%) = ${fifth_slot_amt}`);
-		remain_amount = remain_amount - fifth_slot;
+		$("#fifth-limit-tax").text(`(${taxbale5th} * ${taxSlot['fifth_slot']['display']}%) = ${fifth_slot_amt}`);
+		remain_amount = remain_amount - taxSlot['fifth_slot']['limit'];
 	}else if(isFlag){
 		taxbale5th = remain_amount;
-		fifth_slot_amt = taxbale5th * 0.25;
+		fifth_slot_amt = taxbale5th * taxSlot['fifth_slot']['percent'];
 		$("#fifth-limit-amt").text(taxbale5th);
-		$("#fifth-limit-tax").text(`(${taxbale5th} * 25%) = ${fifth_slot_amt}`);
+		$("#fifth-limit-tax").text(`(${taxbale5th} * ${taxSlot['fifth_slot']['display']}%) = ${fifth_slot_amt}`);
 		isFlag = false
 	}else{
 		$("#fifth-limit-amt, #fifth-limit-tax").text(0);
@@ -242,13 +249,21 @@ function taxRangeCalculations(taxAmt, isfemale = false){
 
 	if(isFlag){
 		taxbaleLast = remain_amount;
-		last_slot_amt = taxbaleLast * 0.30;
+		last_slot_amt = taxbaleLast * taxSlot['last_slot']['percent'];
 		$("#last-limit-amt").text(taxbaleLast);
-		$("#last-limit-tax").text(`(${taxbaleLast} * 25%) = ${last_slot_amt}`);
+		$("#last-limit-tax").text(`(${taxbaleLast} * ${taxSlot['last_slot']['display']}%) = ${last_slot_amt}`);
 		isFlag = false
 	}else{
 		$("#last-limit-amt, #last-limit-tax").text(0);
 	}
+
+
+	$("#first-limit-r2").text(taxSlot['first_slot']['limit']); $("#first-percent-r2").text(taxSlot['first_slot']['display'])
+	$("#second-limit-r2").text(taxSlot['second_slot']['limit']); $("#second-percent-r2").text(taxSlot['second_slot']['display'])
+	$("#third-limit-r2").text(taxSlot['third_slot']['limit']); $("#third-percent-r2").text(taxSlot['third_slot']['display'])
+	$("#forth-limit-r2").text(taxSlot['forth_slot']['limit']); $("#forth-percent-r2").text(taxSlot['forth_slot']['display'])
+	$("#fifth-limit-r2").text(taxSlot['fifth_slot']['limit']); $("#fifth-percent-r2").text(taxSlot['fifth_slot']['display'])
+	$("#last-limit-r2").text(taxSlot['last_slot']['limit']); $("#last-percent-r2").text(taxSlot['last_slot']['display'])
 
 	totalTax = second_slot_amt + third_slot_amt+ forth_slot_amt + fifth_slot_amt+ last_slot_amt
 	$("#total-tax").text( totalTax + ' BDT')
@@ -287,13 +302,9 @@ function taxRangeCalculations(taxAmt, isfemale = false){
 function getInvestmentAmount() {
 
 	var tax90 = total_taxable_ammount*(invesmentRate/100)*(taxRebaseOnInvasmentRate/100)
-	console.log(tax90);
 	if ((totalTax - minimumTaxAmount) > tax90) {
-		console.log("by invesment rate", total_taxable_ammount*invesmentRate)
 		return Math.ceil(total_taxable_ammount*(invesmentRate/100))
 	}else{
-		console.log("by tax rate", (totalTax - minimumTaxAmount) * 100/taxRebaseOnInvasmentRate)
-
 		return Math.ceil(((totalTax - minimumTaxAmount) * 100/taxRebaseOnInvasmentRate))
 	}
 
